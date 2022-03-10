@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import cProfile
+
 class Solution(object):
     @staticmethod
     def isLargest(lst):
@@ -35,11 +37,11 @@ class Solution(object):
 
     @staticmethod
     def reverse(lst, start):
-        sub_list = lst[start+1:]
-        if len(sub_list) == 1:
+        if (len(lst) - start) == 1:
             # print("DEBUG0: lst:{} sub:{} start:{}".format(lst, sub_list, start))
             return
 
+        sub_list = lst[start+1:]
         # print("DEBUG1: lst:{} sub{}:".format(lst, sub_list))
         sub_list.reverse()
         # print("DEBUG2: lst:{} sub{}:".format(lst, sub_list))
@@ -49,7 +51,7 @@ class Solution(object):
 
     def nextPermutation(self, nums):
         if self.isLargest(nums):
-            return nums.sort()
+            return nums.reverse()
 
         swap1 = self.findLesser(nums)
         swap2 = self.findNextLargest(nums[swap1:]) + swap1
@@ -61,10 +63,10 @@ class Solution(object):
 
 #######################
 
-SHH = True
+PERF = True
 
 def log(s):
-    if not SHH:
+    if not PERF:
         print(s)
 
 def test(l, ans):
@@ -76,7 +78,7 @@ def test(l, ans):
         return
     log("Pass: {} == {} for {}".format(res, ans, l))
 
-for i in range(0, 100000):
+def do_all_tests():
     test([1,2,3], [1,3,2])
     test([2,3,1], [3,1,2])
     test([1,1,5], [1,5,1])
@@ -86,3 +88,30 @@ for i in range(0, 100000):
     test([1,3,2], [2,1,3])
     test([3,1,2], [3,2,1])
     test([2,3,1,3,3], [2,3,3,1,3])
+    test([4,3,2,1], [1,2,3,4])
+    test([5,4,3,2,1], [1,2,3,4,5])
+
+if PERF:
+    print("BENCH: sort")
+    cProfile.run('for i in range(0, 1000000): [9,7,6,5,4,3,1].sort()')
+    print("BENCH: reverse")
+    cProfile.run('for i in range(0, 1000000): [9,7,6,5,4,3,1].reverse()')
+
+    def rev_new(lst, start):
+        if (len(lst) - start) == 1:
+            return
+
+    def rev_old(lst, start):
+        sub_list = lst[start+1:]
+        if len(sub_list) == 1:
+            return
+
+    print("BENCH: rev skip test old")
+    cProfile.run('for i in range(0, 2000000): rev_old([1,2,3,4,5,6,7,8,9,0], 9)')
+    print("BENCH: rev skip test new")
+    cProfile.run('for i in range(0, 2000000): rev_new([1,2,3,4,5,6,7,8,9,0], 0)')
+
+    for i in range(0, 10000):
+        do_all_tests()
+
+do_all_tests()
