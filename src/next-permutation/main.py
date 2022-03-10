@@ -3,7 +3,6 @@
 class Solution(object):
     @staticmethod
     def isLargest(lst):
-        curr = lst[0]
         for i, num in enumerate(lst):
             if i == 0: continue
             if lst[i-1] < num:
@@ -30,14 +29,14 @@ class Solution(object):
 
     @staticmethod
     def swap(lst, s1, s2):
-        tmp = lst.copy()
-        lst[s1] = tmp[s2]
-        lst[s2] = tmp[s1]
+        tmp = lst[s2]
+        lst[s2] = lst[s1]
+        lst[s1] = tmp
 
     @staticmethod
     def reverse(lst, start):
         sub_list = lst[start+1:]
-        if len(sub_list) < 2:
+        if len(sub_list) == 1:
             # print("DEBUG0: lst:{} sub:{} start:{}".format(lst, sub_list, start))
             return
 
@@ -62,22 +61,28 @@ class Solution(object):
 
 #######################
 
+SHH = True
+
+def log(s):
+    if not SHH:
+        print(s)
+
 def test(l, ans):
     res = l.copy()
     Solution().nextPermutation(res)
     if res != ans:
-        print("Fail: {} != {} for {}".format(res, ans, l))
+        log("Fail: {} != {} for {}".format(res, ans, l))
         assert(False)
         return
-    print("Pass: {} == {} for {}".format(res, ans, l))
+    log("Pass: {} == {} for {}".format(res, ans, l))
 
-
-test([1,2,3], [1,3,2])
-test([2,3,1], [3,1,2])
-test([1,1,5], [1,5,1])
-test([3,2,1], [1,2,3])
-test([1,2,3,4], [1,2,4,3])
-test([1,2], [2,1])
-test([1,3,2], [2,1,3])
-test([3,1,2], [3,2,1])
-test([2,3,1,3,3], [2,3,3,1,3])
+for i in range(0, 100000):
+    test([1,2,3], [1,3,2])
+    test([2,3,1], [3,1,2])
+    test([1,1,5], [1,5,1])
+    test([3,2,1], [1,2,3])
+    test([1,2,3,4], [1,2,4,3])
+    test([1,2], [2,1])
+    test([1,3,2], [2,1,3])
+    test([3,1,2], [3,2,1])
+    test([2,3,1,3,3], [2,3,3,1,3])
