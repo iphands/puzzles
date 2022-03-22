@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+from ..common.utils import log, check
+from ..common.globals import PERF
+
 import cProfile
 
 class Solution(object):
@@ -63,20 +66,10 @@ class Solution(object):
 
 #######################
 
-PERF = True
-
-def log(s):
-    if not PERF:
-        print(s)
-
 def test(l, ans):
     res = l.copy()
     Solution().nextPermutation(res)
-    if res != ans:
-        log("Fail: {} != {} for {}".format(res, ans, l))
-        assert(False)
-        return
-    log("Pass: {} == {} for {}".format(res, ans, l))
+    check(res, ans, l)
 
 def do_all_tests():
     test([1,2,3], [1,3,2])
@@ -91,27 +84,28 @@ def do_all_tests():
     test([4,3,2,1], [1,2,3,4])
     test([5,4,3,2,1], [1,2,3,4,5])
 
-if PERF:
-    print("BENCH: sort")
-    cProfile.run('for i in range(0, 1000000): [9,7,6,5,4,3,1].sort()')
-    print("BENCH: reverse")
-    cProfile.run('for i in range(0, 1000000): [9,7,6,5,4,3,1].reverse()')
+if __name__ == '__main__':
+    if PERF:
+        print("BENCH: sort")
+        cProfile.run('for i in range(0, 1000000): [9,7,6,5,4,3,1].sort()')
+        print("BENCH: reverse")
+        cProfile.run('for i in range(0, 1000000): [9,7,6,5,4,3,1].reverse()')
 
-    def rev_new(lst, start):
-        if (len(lst) - start) == 1:
-            return
+        def rev_new(lst, start):
+            if (len(lst) - start) == 1:
+                return
 
-    def rev_old(lst, start):
-        sub_list = lst[start+1:]
-        if len(sub_list) == 1:
-            return
+        def rev_old(lst, start):
+            sub_list = lst[start+1:]
+            if len(sub_list) == 1:
+                return
 
-    print("BENCH: rev skip test old")
-    cProfile.run('for i in range(0, 2000000): rev_old([1,2,3,4,5,6,7,8,9,0], 9)')
-    print("BENCH: rev skip test new")
-    cProfile.run('for i in range(0, 2000000): rev_new([1,2,3,4,5,6,7,8,9,0], 0)')
+        print("BENCH: rev skip test old")
+        cProfile.run('for i in range(0, 2000000): rev_old([1,2,3,4,5,6,7,8,9,0], 9)')
+        print("BENCH: rev skip test new")
+        cProfile.run('for i in range(0, 2000000): rev_new([1,2,3,4,5,6,7,8,9,0], 0)')
 
-    for i in range(0, 10000):
-        do_all_tests()
+        for i in range(0, 10000):
+            do_all_tests()
 
-do_all_tests()
+    do_all_tests()
