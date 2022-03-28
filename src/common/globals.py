@@ -1,2 +1,2 @@
 PERF = False
-QUIET = False
+QUIET = True
