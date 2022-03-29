@@ -37,7 +37,7 @@ class Solution:
                 signer = -1
                 idx += 1
                 break
-            if s[idx] >= '0' and s[idx] <= '9':
+            if s[idx].isdigit():  # s[idx] >= '0' and s[idx] <= '9':
                 break
             return 0
 
@@ -45,7 +45,8 @@ class Solution:
 
         nums = ""
         # nums = []
-        while idx < s_len and s[idx] >= '0' and s[idx] <= '9':
+        while idx < s_len and s[idx].isdigit(
+        ):  # s[idx] >= '0' and s[idx] <= '9':
             log("Num part s[idx]:{}".format(s[idx]))
             nums += s[idx]
             # nums.append(s[idx])
