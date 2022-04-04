@@ -5,6 +5,9 @@ def log(s):
         print(s)
 
 def check(result, expected, inp):
+    if len(inp) > 100:
+        inp = inp[0:100]
+
     if result != expected:
         print("Fail: result:{} != expected:{} for input:{}".format(result, expected, inp))
         assert(False)
