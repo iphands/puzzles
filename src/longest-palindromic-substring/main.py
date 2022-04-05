@@ -2,6 +2,7 @@ from ..common.utils import log, check
 import csv
 import cProfile
 
+import hashlib
 memo = {}
 
 class Solution:
@@ -19,6 +20,11 @@ class Solution:
         #  check if the whole thing is a palindrome
         if s == s[::-1]:
             return s
+
+        key = s
+        if s_len > 8:
+            key = hashlib.blake2b(s.encode(), digest_size=4).hexdigest()
+            # log(key)
 
         def check(start, is_even):
             l = start
@@ -56,8 +62,8 @@ class Solution:
 
         ret = s[0]
         for i in range(s_len):
-            if (s, i) in memo:
-                ret = memo[(s,i)]
+            if (i, key) in memo:
+                ret = memo[(i, key)]
                 continue
 
             ret_len = len(ret)
@@ -71,7 +77,7 @@ class Solution:
             if ret_len < len(result):
                 ret = result
 
-            memo[s,i] = ret
+            memo[i, key] = ret
 
         return ret
 
@@ -96,15 +102,8 @@ def do_all_tests():
         reader = csv.reader(data)
         for row in reader:
             test(row[0].strip(), row[1].strip())
-            test(row[0].strip(), row[1].strip())
-            test(row[0].strip(), row[1].strip())
-            test(row[0].strip(), row[1].strip())
-            test(row[0].strip(), row[1].strip())
-            test(row[0].strip(), row[1].strip())
-            test(row[0].strip(), row[1].strip())
-            test(row[0].strip(), row[1].strip())
 
 if __name__ == '__main__':
-    for i in range(1):
-        cProfile.run('do_all_tests()')
-        # do_all_tests()
+    for i in range(400):
+        # cProfile.run('do_all_tests()')
+        do_all_tests()
