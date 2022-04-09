@@ -1,1 +1,4 @@
 __pycache__
+yapf*py
+*.swp
+.#*
