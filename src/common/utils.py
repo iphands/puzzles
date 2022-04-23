@@ -7,13 +7,13 @@ def log(s):
 
 
 def check(result, expected, inp):
-    if len(inp) > 100:
+    if isinstance(inp, str) and len(inp) > 100:
         inp = inp[0:100]
 
     if result != expected:
-        print("Fail: result:{} != expected:{} for input:{}".format(
-            result, expected, inp))
-        assert (False)
+        s = f'Fail: result:{result} != expected:{expected} for input:{inp}'
+        print(s)
+        assert (False), s
 
     print("Pass: result:{} == expected:{} for intput:{}".format(
         result, expected, inp))
