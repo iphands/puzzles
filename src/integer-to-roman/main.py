@@ -1,6 +1,7 @@
 import cProfile
 from ..common.utils import log, check
 
+#  all possible 1,4,5,9
 i_to_rn = {
     1000: 'M',
     900: 'CM',
@@ -50,8 +51,17 @@ def do_all_tests():
     test(4, 'IV')
     test(5, 'V')
     test(1994, 'MCMXCIV')
+    with open('./src/integer-to-roman/data.csv', 'r') as f:
+        for line in f.readlines():
+            num, rnum = line.strip().split(',')
+            test(int(num), rnum)
+
+
+def bench():
+    for i in range(100):
+        do_all_tests()
 
 
 if __name__ == '__main__':
-    # cProfile.run('do_all_tests()')
+    # cProfile.run('bench()')
     do_all_tests()

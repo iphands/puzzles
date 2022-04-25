@@ -12,10 +12,10 @@ def check(result, expected, inp):
 
     if result != expected:
         s = f'Fail: result:{result} != expected:{expected} for input:{inp}'
-        print(s)
+        log(s)
         assert (False), s
 
-    print("Pass: result:{} == expected:{} for intput:{}".format(
+    log("Pass: result:{} == expected:{} for intput:{}".format(
         result, expected, inp))
 
 
