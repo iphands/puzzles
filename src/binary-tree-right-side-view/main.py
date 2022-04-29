@@ -15,7 +15,7 @@ class Solution:
             return
 
         bundle = {}
-        bundle[0] = [root.val]
+        bundle[0] = root.val
 
         def func(level, node):
             if node == None:
@@ -23,26 +23,16 @@ class Solution:
 
             next_level = level + 1
 
-            if next_level not in bundle:
-                bundle[next_level] = []
-
             if node.left and node.left.val:
-                bundle[next_level].append(node.left.val)
+                bundle[next_level] = node.left.val
             if node.right and node.right.val:
-                bundle[next_level].append(node.right.val)
+                bundle[next_level] = node.right.val
 
             func(next_level, node.left)
             func(next_level, node.right)
 
         func(0, root)
-
-        return [v[-1] if len(v) != 0 else None
-                for k, v in bundle.items()][0:-1]
-        # ret = []
-        # for i, row in bundle.items():
-        #     if len(row) != 0:
-        #         ret.append(row[-1])
-        # return ret
+        return [v for k, v in bundle.items()]
 
 
 ###################################
