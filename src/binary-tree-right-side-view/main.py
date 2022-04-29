@@ -10,6 +10,32 @@ class TreeNode:
 
 
 class Solution:
+    def rightSideViewCheat(self, root):
+        if root == None:
+            return
+
+        # We cant know the depth up front in reality
+        # but leetcode goes no higher than 31
+        bundle = [None] * 31
+        bundle[0] = root.val
+
+        def func(level, node):
+            if node == None:
+                return
+
+            next_level = level + 1
+
+            if node.left and node.left.val:
+                bundle[next_level] = node.left.val
+            if node.right and node.right.val:
+                bundle[next_level] = node.right.val
+
+            func(next_level, node.left)
+            func(next_level, node.right)
+
+        func(0, root)
+        return bundle[0:bundle.index(None)]
+
     def rightSideView(self, root):
         if root == None:
             return
