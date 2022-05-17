@@ -70,4 +70,5 @@ def do_all_tests():
 
 
 if __name__ == '__main__':
-    cProfile.run('do_all_tests()')
+    # cProfile.run('do_all_tests()')
+    do_all_tests()

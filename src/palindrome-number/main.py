@@ -41,5 +41,5 @@ def do_all_tests():
 
 
 if __name__ == '__main__':
-    for i in range(300000):
-        do_all_tests()
+    # for i in range(300000):
+    do_all_tests()
