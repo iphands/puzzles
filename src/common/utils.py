@@ -1,6 +1,77 @@
 from .globals import PERF, QUIET
 
 
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+def array_to_tree(arr):
+    e = enumerate(arr)
+    layer_i = 0
+    arr_i = 1
+
+    def get(e):
+        tmp = next(e, None)
+        if tmp == None:
+            return None
+        return tmp[1]
+
+    layers = [[TreeNode(get(e))]]
+    while arr_i < len(arr):
+        layers.append([])
+        layer_i += 1
+        for item_i, item in enumerate(layers[layer_i - 1]):
+            left_val = get(e)
+            right_val = get(e)
+            arr_i += 2
+            left = TreeNode(left_val)
+            right = TreeNode(right_val)
+            item.left = left
+            item.right = right
+            layers[layer_i].append(left)
+            layers[layer_i].append(right)
+
+    return layers[0][0]
+
+
+def tree_to_layers(head):
+    layer_i = 0
+    layers = [[head]]
+    done = False
+    while not done:
+        layers.append([])
+        layer_i += 1
+        for item_i, item in enumerate(layers[layer_i - 1]):
+            try:
+                layers[layer_i].append(item.left)
+                layers[layer_i].append(item.right)
+            except:
+                done = True
+                layers = layers[0:-1 - 1]
+                break
+
+    return layers
+
+
+def tree_to_answer_array(head):
+    layers = tree_to_layers(head)
+    ret = []
+    for layer in layers:
+        for item in layer:
+            ret.append(item.val)
+    return ret
+
+
+def print_tree(head):
+    layers = tree_to_layers(head)
+    for layer in layers:
+        log(list(map(lambda n: n.val, layer)))
+
+
 def log(s):
     if not PERF and not QUIET:
         print(s)
