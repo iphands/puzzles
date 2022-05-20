@@ -13,7 +13,7 @@ class Solution:
                 word = list(word)
                 word.append(word.pop(0))
                 word = ''.join(word)
-            ret.append(word + 'ma' + ''.join(['a'] * count))
+            ret.append(word + 'ma' + ('a' * count))
             count += 1
 
         log(ret)
